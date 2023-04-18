@@ -1,6 +1,5 @@
-# This script goes out to the Missouri AG's transgender center concern website
-# and automatically fills the form with garbage data. 
-# Edit 'num_submissions = 500' to change how many times the script runs.
+# This script goes out to the Missouri AG's transgender center concern website and automatically fills the form with garbage data. 
+# Edit 'num_submissions = 1' to change how many times the script runs.
 
 import requests
 import random
@@ -14,110 +13,56 @@ url = 'https://ago.mo.gov/file-a-complaint/transgender-center-concerns'
 # Generate random text of given length
 def generate_random_text(length):
     return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
-    
-# Generate random address
+
 def generate_random_address():
-    num_digits = random.randint(2, 5)
-    num_letters = random.randint(10, 20)
-    return str(random.randint(10**(num_digits-1), (10**num_digits)-1)) + ' ' + generate_random_text(num_letters)    
+    # List of common street names
+    street_names = ["Main St", "Oak St", "Maple Ave", "Cedar Ln", "Pine St", "Elm St", "Spruce Dr", "Birch Rd", "Willow Ct", "Juniper Way", "Holly St", "Sycamore Rd", "Ash Dr", "Cypress Ln", "Poplar Ave", "Chestnut St", "Dogwood Rd", "Redwood Dr", "Magnolia Ln", "Beech St", "Fir Rd", "Cherry Ave", "Hickory Ln", "Palm Dr", "Locust St", "Birchwood Rd", "Yew Ct", "Cedarwood Ave", "Acacia Ln", "Balsam St", "Alder Rd", "Red Cedar Dr", "Buckeye Ave", "Pecan Ln", "Bamboo Rd", "Boxwood St", "Redbud Ave", "Hemlock Ln", "Cottonwood Dr", "Eucalyptus Ave", "Ginkgo Rd", "Linden St", "Weeping Willow Ln", "Red Maple Ave", "Sweetgum Dr", "White Oak Rd", "Silver Birch Ln", "Sugar Maple Ave", "Yellowwood St", "American Elm Dr"]
 
-# Function that randomly selects a passage of 1,000 words from Shakespeare
-def random_passage():
-    # Download the text file
-    url = "https://www.gutenberg.org/cache/epub/100/pg100.txt"
-    response = urllib.request.urlopen(url)
-    text = response.read().decode('utf-8-sig')
+    # Generate a random number between 2 and 6 digits for the street number
+    street_number = random.randint(10, 999999)
 
-    # Split the text into words
-    words = re.findall('\w+', text)
+    # Choose a random street name from the list
+    street_name = random.choice(street_names)
 
-    # Choose a random starting word index
-    start_index = random.randint(0, len(words) - 1000)
+    # Generate the street address string
+    street_address = f"{street_number} {street_name}"
 
-    # Extract the passage of 1000 words
-    passage = ' '.join(words[start_index:start_index+1000])
+    return street_address
+ 
+# Function that randomly generates a letter to send
+def random_paragraph():
+    file_path = 'comments.txt'  
+    with open(file_path, 'r') as file:
+        sentences = file.readlines()
+        num_sentences = random.randint(3, 5)  # Randomly select number of sentences
+        selected_sentences = random.sample(sentences, num_sentences)  # Randomly select sentences
+        paragraph = ' '.join(selected_sentences).strip()  # Join sentences into a paragraph
+        
+        return paragraph
 
-    return passage
+# Function to generate a fake email address
+def generate_fake_email(first_name, last_name):
+    # Generate a random string of 5 digits for the email address
+    random_digits = ''.join(random.choices(string.digits, k=5))
+
+    # Create the fake email address using the first name, last name, and random digits
+    email = f"{first_name.lower()}.{last_name.lower()}{random_digits}@gmail.com"
+
+    return email
 
 # 25 most popular names in the US
-top_25_names = [
-'Liam',
-'Emma',
-'Noah',
-'Olivia',
-'Isabella',
-'Sophia',
-'Jackson',
-'Lucas',
-'Luna',
-'Mia',
-'Harper',
-'Layla',
-'Chloe',
-'Penelope',
-'Riley',
-'Zoe',
-'Oliver',
-'Ava',
-'Charlotte',
-'Leah',
-'Grace',
-'Evelyn',
-'Aria',
-'Scarlett'
+first_names = [
+'Liam', 'Emma', 'Noah', 'Olivia', 'Isabella', 'Sophia', 'Jackson', 'Lucas', 'Luna', 'Mia', 'Harper', 'Layla', 'Chloe', 'Penelope', 'Riley', 'Zoe', 'Oliver', 'Ava', 'Charlotte', 'Leah', 'Grace', 'Evelyn', 'Aria', 'Scarlett'
+]
+
+# 50 popular last names in America
+last_names = [
+'Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Hernandez', 'Martinez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin', 'Lee', 'Perez', 'Thompson', 'White', 'Sanchez', 'Clark', 'Ramirez', 'Lewis', 'Robinson', 'Walker', 'Young', 'Allen', 'King', 'Wright', 'Scott', 'Torres', 'Nguyen', 'Hill', 'Flores', 'Green', 'Adams', 'Nelson', 'Baker', 'Hall', 'Rivera', 'Campbell', 'Mitchell', 'Carter', 'Roberts'
 ]
 
 # 20 most populous cities in Missouri
 mo_cities = [
-'Kansas City',
-'St. Louis',
-'Springfield',
-'Independence',
-'Columbia',
-'Lee\'s Summit',
-'O\'Fallon',
-'St. Joseph',
-'St. Charles',
-'Blue Springs',
-'St. Peters',
-'Florissant',
-'Joplin',
-'Chesterfield',
-'Jefferson City',
-'Wentzville',
-'Cape Girardeau',
-'Wildwood',
-'University City',
-'Liberty',
-'Ballwin',
-'Raytown',
-'Gladstone',
-'Kirkwood',
-'Maryland Heights',
-'Hazelwood',
-'Grandview',
-'Webster Groves',
-'Belton',
-'Nixa',
-'Arnold',
-'Sedalia',
-'Rolla',
-'Warrensburg',
-'Mexico',
-'Moberly',
-'Neosho',
-'Ferguson',
-'Creve Coeur',
-'Clayton',
-'Republic',
-'Lake St. Louis',
-'Ozark',
-'Manchester',
-'Kirksville',
-'Hannibal',
-'Poplar Bluff',
-'Overland',
-'Sikeston'
+'Kansas City', 'St. Louis', 'Springfield', 'Independence', 'Columbia', 'Lee\'s Summit', 'O\'Fallon', 'St. Joseph', 'St. Charles', 'Blue Springs', 'St. Peters', 'Florissant', 'Joplin', 'Chesterfield', 'Jefferson City', 'Wentzville', 'Cape Girardeau', 'Wildwood', 'University City', 'Liberty', 'Ballwin', 'Raytown', 'Gladstone', 'Kirkwood', 'Maryland Heights', 'Hazelwood', 'Grandview', 'Webster Groves', 'Belton', 'Nixa', 'Arnold', 'Sedalia', 'Rolla', 'Warrensburg', 'Mexico', 'Moberly', 'Neosho', 'Ferguson', 'Creve Coeur', 'Clayton', 'Republic', 'Lake St. Louis', 'Ozark', 'Manchester', 'Kirksville', 'Hannibal', 'Poplar Bluff', 'Overland', 'Sikeston'
 ]
 
 # Missouri ZIP codes
@@ -130,18 +75,18 @@ mo_zip_codes = [
 
 # Data to be submitted in the form
 data = {
-    'FirstName': random.choice(top_25_names),
-    'LastName': generate_random_text(5),
+    'FirstName': random.choice(first_names),
+    'LastName': random.choice(last_names),
     'Address': generate_random_address(),
     'City': random.choice(mo_cities),
     'State': 'MO',
     'ZipCode': random.choice(mo_zip_codes),
-    'Email': generate_random_text(7) + '@gmail.com',
-    'Comments': random_passage()
+    'Email': generate_fake_email(),
+    'Comments': random_paragraph()
 }
 
 # Set the number of form submissions
-num_submissions = 500  
+num_submissions = 1  
 
 # Loop for the specified number of form submissions
 for i in range(num_submissions):
