@@ -72,16 +72,19 @@ mo_zip_codes = [
     63125, 63049, 63051, 63124, 63131
 ]
 
+# Store randomly generated first name and last name in variables
+first_name = random.choice(first_names)
+last_name = random.choice(last_names)
 
 # Data to be submitted in the form
 data = {
-    'FirstName': random.choice(first_names),
-    'LastName': random.choice(last_names),
+    'FirstName': first_name,
+    'LastName': last_name,
     'Address': generate_random_address(),
     'City': random.choice(mo_cities),
     'State': 'MO',
     'ZipCode': random.choice(mo_zip_codes),
-    'Email': generate_fake_email(),
+    'Email': generate_fake_email(first_name, last_name),
     'Comments': random_paragraph()
 }
 
