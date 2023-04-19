@@ -1,5 +1,4 @@
 # This script goes out to the Missouri AG's transgender center concern website and automatically fills the form with garbage data. 
-# Edit 'num_submissions = 1' to change how many times the script runs.
 
 import requests
 import random
@@ -88,16 +87,12 @@ data = {
     'Comments': random_paragraph()
 }
 
-# Set the number of form submissions
-num_submissions = 1  
+# Send a POST request to submit the form
+response = requests.post(url, data=data)
 
-# Loop for the specified number of form submissions
-for i in range(num_submissions):
-    # Send a POST request to submit the form
-    response = requests.post(url, data=data)
+# Check if the request was successful (status code 200 indicates success)
+if response.status_code == 200:
+    print("Form submitted successfully!")
+else:
+    print("Form submission failed.")
 
-    # Check if the request was successful (status code 200 indicates success)
-    if response.status_code == 200:
-        print(f"Form submitted successfully! Submission {i+1}/{num_submissions}")
-    else:
-        print(f"Form submission failed for submission {i+1}/{num_submissions}")
