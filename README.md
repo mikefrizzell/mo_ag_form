@@ -1,3 +1,8 @@
+# This script no longer works
+As of 4/19/23 the website has added CAPTCHA, so this script won't work. I suppose someone could use 2captcha or another service to solve the captcha. Or, you could use Selenium to fill out the form and then bring the captcha up for you to solve. Either of those might work, but I'm not interested in pursuing it any further.
+
+Keep submitting fake reports manually and waste their time. It's not much but it's honest work.
+
 # About
 Python script to flood the Missouri AG's transgender center form with fake reports. It creates a fake name, fake address, fake email, and a random comment. 
 
